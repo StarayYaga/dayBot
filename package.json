@@ -1,0 +1,28 @@
+{
+  "name": "daybot",
+  "version": "1.0.0",
+  "description": "Calendar bot for kozliatnik@tg",
+  "main": "main.js",
+  "scripts": {
+    "dev": "nodemon main.js",
+    "start": "node main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StarayYaga/dayBot.git"
+  },
+  "author": "yaga",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/StarayYaga/dayBot/issues"
+  },
+  "homepage": "https://github.com/StarayYaga/dayBot#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  },
+  "dependencies": {
+    "dotenv": "^16.1.4",
+    "node-telegram-bot-api": "^0.61.0",
+    "telegraf": "^4.12.2"
+  }
+}
