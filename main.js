@@ -80,7 +80,9 @@ class Main{
 
 }
 
-setInterval(()=>{
+function main(){
     const startBot = new Main()
     startBot.main()
-}, 43200000)
+}
+main()
+setInterval(main, 43200000)
