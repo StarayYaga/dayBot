@@ -75,9 +75,12 @@ class Main{
             }
             this.check()
         })
+        
     }
 
 }
 
-const startBot = new Main()
-startBot.main()
+setInterval(()=>{
+    const startBot = new Main()
+    startBot.main()
+}, 43200000)
