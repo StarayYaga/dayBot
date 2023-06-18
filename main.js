@@ -3,6 +3,9 @@ const config = require('./config')
 const jsonCtrl =require("./modules/json.controller")
 const dateCtrl = require("./modules/date.controller")
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 class Main{
     constructor(){
@@ -12,14 +15,16 @@ class Main{
         console.log("start");
         this.check()
     }
-
+    
     check(){
         this.today = new dateCtrl().check()
         for (let date of this.today){
             this.bot.sendMessage(config.chat_id, date)
         }
+        console.log("check  ");
     }
-    main(){
+
+    async main(){
         this.bot.onText(/\/start/, msg=>{
             this.bot.sendMessage(msg.chat.id, "Привет.Я бот, который будет уведомлять тебя о событиях, которые ты мне добавишь(если сможешь).\nОсновные комнады:\n/id - получишь свой id. (он нужен админу)\n/admin - добавит возможность добавлять события (доступно только мастер админу)\n/add - добавит событие и будет следить за ним.\n/check - покажит ближайшие события (в радиусе 2 дней)")
         })
@@ -77,12 +82,15 @@ class Main{
         })
         
     }
-
+    
+    stop (){
+        this.bot.stopPolling({cancel:true})
+        console.log("stop");
+    }
 }
 
-function main(){
-    const startBot = new Main()
-    startBot.main()
-}
-main()
-setInterval(main, 43200000)
+const bot = new Main()
+bot.main()
+setInterval(()=>{
+    bot.check()
+}, 86400000)
