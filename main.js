@@ -3,10 +3,6 @@ const config = require('./config')
 const jsonCtrl =require("./modules/json.controller")
 const dateCtrl = require("./modules/date.controller")
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 class Main{
     constructor(){
         this.bot = new TelegramBot(config.botKey, {polling: true});
@@ -16,10 +12,10 @@ class Main{
         this.check()
     }
     
-    check(){
+    async check(){
         this.today = new dateCtrl().check()
         for (let date of this.today){
-            this.bot.sendMessage(config.chat_id, date)
+            await this.bot.sendMessage(config.chat_id, date)
         }
         console.log("check  ");
     }
@@ -82,15 +78,23 @@ class Main{
         })
         
     }
-    
-    stop (){
-        this.bot.stopPolling({cancel:true})
-        console.log("stop");
-    }
 }
 
-const bot = new Main()
-bot.main()
-setInterval(()=>{
-    bot.check()
-}, 86400000)
+async function start (){
+    const bot = new Main()
+    await bot.main()
+
+    async function check(interval){
+        const time = interval * 1000
+        let timeStart = new Date
+        while (true){
+            if (new Date - timeStart <= time) continue
+            await bot.check()
+            timeStart = new Date
+        }
+    }
+
+    await check(10)
+}
+
+start()
